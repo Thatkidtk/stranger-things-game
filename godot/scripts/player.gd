@@ -7,14 +7,22 @@ extends CharacterBody2D
 @export var room_size := Vector2(1280, 720)
 @export var room_padding := 12.0
 
+@export var sound_manager_path := NodePath("../Room")
+
 @export var footstep_interval_walk := 0.45
 @export var footstep_interval_crouch := 0.75
+@export var footstep_decay_walk := 0.55
+@export var footstep_decay_crouch := 0.85
 @export var footstep_radius_walk := 160.0
 @export var footstep_radius_crouch := 90.0
 @export var footstep_intensity_walk := 0.75
 @export var footstep_intensity_crouch := 0.35
 
 var _footstep_timer := 0.0
+var _sound_manager: Node = null
+
+func _ready() -> void:
+	_sound_manager = get_node_or_null(sound_manager_path)
 
 func _physics_process(delta: float) -> void:
 	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -40,7 +48,9 @@ func _emit_footsteps(delta: float, move_amount: float, crouching: bool) -> void:
 	_footstep_timer = 0.0
 	var intensity := footstep_intensity_crouch if crouching else footstep_intensity_walk
 	var radius := footstep_radius_crouch if crouching else footstep_radius_walk
-	print("footstep intensity=", intensity, " radius=", radius)
+	var decay_time := footstep_decay_crouch if crouching else footstep_decay_walk
+	if _sound_manager and _sound_manager.has_method("emit_sound_from"):
+		_sound_manager.emit_sound_from(self, radius, intensity, decay_time)
 
 func _clamp_to_room() -> void:
 	var min_pos := room_origin + Vector2(room_padding, room_padding)

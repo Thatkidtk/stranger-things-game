@@ -22,3 +22,4 @@ move_down={"deadzone":0.5,"events":[{"type":"key","keycode":83},{"type":"key","k
 move_left={"deadzone":0.5,"events":[{"type":"key","keycode":65},{"type":"key","keycode":16777231},{"type":"joypad_motion","axis":0,"axis_value":-1.0}]}
 move_right={"deadzone":0.5,"events":[{"type":"key","keycode":68},{"type":"key","keycode":16777233},{"type":"joypad_motion","axis":0,"axis_value":1.0}]}
 crouch={"deadzone":0.5,"events":[{"type":"key","keycode":67},{"type":"joypad_button","button_index":1}]}
+debug_toggle={"deadzone":0.5,"events":[{"type":"key","keycode":16777259}]}
